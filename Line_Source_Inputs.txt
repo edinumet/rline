@@ -1,0 +1,45 @@
+User control file for RLINEv1_2 
+Source File Name
+'Source_Example.txt'
+Input Emiss can be in AADT or g/m (see user guide)
+--------------------------------------------------
+Receptor File Name
+'Receptor_Example.txt'
+--------------------------------------------------
+Input Met File
+'Met_Example.sfc'
+--------------------------------------------------
+Receptor Output File
+'Output_Example_Numerical.csv'
+--------------------------------------------------
+Error_Limit (suggested 1.0e-03)
+1.0e-03
+--------------------------------------------------
+Ratio of displacement height to roughness length (fac_dispht)
+5.0
+--------------------------------------------------
+--- OUTPUT OPTION(S) BELOW: ----------------------
+--------------------------------------------------
+(1) Include concentrations from ['M'] Meander ONLY, ['P'] Plume ONLY, ['T'] Total = Plume+Meander
+'T'
+--------------------------------------------------
+(2) Outout daily 24-hour averages? ('Y'/'N')
+'N'
+--------------------------------------------------
+(3) ['M'] Monthly Output Files, ['N'] No Hourly Files, ['A'] All hourly in one file
+'A'
+--------------------------------------------------
+(4) Supress source/receptor proximity warnings? ('Y'/'N')
+'Y'
+--------------------------------------------------
+--- BETA OPTION(S) BELOW: ------------------------
+--------------------------------------------------
+(1) Use analytical solution ('Y'/'N'), speeds up run time, but less accurate
+'N'
+--------------------------------------------------
+(2) Use barrier and depressed roadway algorithms? ('Y'/'N')
+'N'
+--------------------------------------------------
+(3) Use non-zero roadwidth? ('Y'/'N')Lane width [m]
+'N' 3.6
+--------------------------------------------------
