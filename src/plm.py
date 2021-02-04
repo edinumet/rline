@@ -2,7 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
-def plm(gs, datam, sites):
+fig_size = (10, 5)
+f = plt.figure(figsize=fig_size)
+
+def plm(gs, datam, sites, fig=f):
     """Plot meteorological data"""
     hour = datam['Hour']
     u = float(datam['u'])
@@ -59,5 +62,5 @@ def plm(gs, datam, sites):
     # fig.set_size_inches(10, 8)
     fig.subplots_adjust(top=0.85, left=0.1, right=0.95, bottom=0.1)
     #fig.savefig('rline_%d.png'%hour, dpi=100)
-
-    plt.show()
+    return(f)
+    #plt.show()
