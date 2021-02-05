@@ -1,3 +1,16 @@
+"""
+Created: Tuesday 1st December 2020
+@author: John Moncrieff (j.moncrieff@ed.ac.uk)
+Last Modified on 5 Feb 2021 16:30 
+
+DESCRIPTION
+===========
+
+Code to extract all the information required to run the COPERT emission factors
+
+Returns NOx and PM in g/m/s ready for RLine
+"""
+
 import pandas as pd
 import math
 
@@ -18,7 +31,7 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
     vs = trafficstats["vs"]
     hour = trafficstats["hour"]
     AADT = trafficstats["AADT"]
-    print(AADT, vs, hour)
+    print("Traffic count = {}  per day, Vehicle speed = {}, Time of day = {}".format(AADT,vs,hour))
     # Passenger Cars #################################################
     # Within that overall breakdown, we need to know what % of each category 
     # uses diesel and in what Euro category they are
@@ -294,7 +307,6 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
                                 weighted_NOx_emission_diesel_buses = weighted_NOx_emission_diesel_buses \
                                  + emis.values * frac_bus[euro_type]
 
-    
     # Need to scale by Annual Average Daily Traffic (AADT)
     # and scale for hour of day
     
@@ -324,9 +336,6 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
 #     print("weighted_NOx_emission_artic_diesel_trucks = ", weighted_NOx_emission_artic_diesel_trucks * traffic_count * fleetmix_2020["artic"]/100)
 #     print("weighted_NOx_emission_diesel_buses = ", weighted_NOx_emission_diesel_buses * traffic_count * fleetmix_2020["buses"]/100)
 #     print("weighted_NOx_emission_biodiesel_buses = ", weighted_NOx_emission_biodiesel_buses * traffic_count * fleetmix_2020["biodiesel"]/100)
-#         
-    
-    
     
     hourly_weighted_PM_emission = weighted_PM_emission_petrol_cars * traffic_count * fleetmix_2020["petrol"]/100 + \
                                weighted_PM_emission_diesel_cars * traffic_count * fleetmix_2020["diesel"]/100 + \

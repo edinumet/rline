@@ -1,3 +1,15 @@
+"""
+Created: Tuesday 1st December 2020
+@author: John Moncrieff (j.moncrieff@ed.ac.uk)
+Last Modified on 5 Feb 2021 16:30 
+
+DESCRIPTION
+===========
+
+Plots RLINE output and weather data
+"""
+
+
 import numpy as np
 import math
 import matplotlib.pyplot as plt
