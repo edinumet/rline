@@ -6,17 +6,19 @@ from scipy.interpolate import griddata
 # https://www.reddit.com/r/Python/comments/87lbao/matplotlib_griddata_deprecation_help/
 import matplotlib.gridspec as gridspec
 
+fig_size = (10, 5)
+f = plt.figure(figsize=fig_size)
 
-def pls(gs, xx, yy, zz, hour, min, max, datam, sites, hourly_stab):
+def pls(gs, xx, yy, zz, hour, min, max, datam, sites, hourly_stab,fig=f):
     """Plot Line Source"""
     # define grid
     xi = np.linspace(-100., 100., 100)
     yi = np.linspace(-100., 100., 100)
     X,Y= np.meshgrid(xi,yi)
     zi = griddata((xx, yy), zz, (X, Y), method='linear')
-    stab=hourly_stab[hour]
+
     # plot the roadways running N-S and E-W
-    ax1 = plt.subplot(hour+1,2,1)  #(gs[:, :-1])
+    ax1 = plt.subplot(gs[:, :-1])
     ax1.plot([5, 5], [-100, 100], color='k', linestyle='--', linewidth=1)
     ax1.plot([-5, -5], [-100, 100], color='k', linestyle='--', linewidth=1)
     ax1.plot([-100, 100], [-5, -5], color='k', linestyle='--', linewidth=1)
@@ -46,7 +48,7 @@ def pls(gs, xx, yy, zz, hour, min, max, datam, sites, hourly_stab):
 
     ax1.set_xlim(-100, 100)
     ax1.set_ylim(-100, 100)
-    ax1.set_title('PM10 Ground-Level Concentration \n (%s)'%stab, fontsize=12, color='blue')
+    ax1.set_title('PM10 Ground-Level Concentration \n (%s)'%hourly_stab[hour-1], fontsize=11, color='blue')
     
     """Plot meteorological data"""
     hour = datam['Hour']
@@ -62,13 +64,13 @@ def pls(gs, xx, yy, zz, hour, min, max, datam, sites, hourly_stab):
     # from MatplotlIb web page of examples
     theta = wdirr
     radii = 8
-    nwidth = np.pi / 16
+    width = np.pi / 16
     # go clockwise as in a compass
-    ax2 = plt.subplot(hour+1,2,2,projection = 'polar')   #(gs[:-1, -1], projection='polar')
+    ax2 = plt.subplot(gs[:-1, -1], projection='polar')
     ax2.set_theta_direction(-1)
     # Make sure North points to top of page
     ax2.set_theta_offset(90*math.pi /180)
-    ax2.bar(theta, radii, width=nwidth, bottom=0.0)
+    ax2.bar(theta, radii, width=width, bottom=0.0)
     ax2.set_title('Met conditions')
     ax3 = plt.subplot(gs[-1, -1])
     ax3.set_frame_on(False)
@@ -98,5 +100,6 @@ def pls(gs, xx, yy, zz, hour, min, max, datam, sites, hourly_stab):
     ax3.text(0.1, 0.2, r"Emission height = 1 m", fontsize=10)
     ax3.text(0.1, 0.1, r"Roadway ---", fontsize=10)
     
-    plt.show()
     
+    #plt.show()
+    return(f)
