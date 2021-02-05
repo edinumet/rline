@@ -49,7 +49,7 @@ def pls(gs, xx, yy, zz, hour, min, max, datam, sites, hourly_stab):
     ax1.set_title('PM10 Ground-Level Concentration \n (%s)'%stab, fontsize=12, color='blue')
     
     """Plot meteorological data"""
-    hour = datam['Hour']
+    hour = int(datam['Hour'])
     u = float(datam['u'])
     wdir = int(float(datam['dir']))
     MOLength = int(float(datam['L']))
