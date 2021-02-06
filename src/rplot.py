@@ -32,21 +32,20 @@ def plotrw():
     # NB - RLINE has calculated the concentrations based on unit emission
     # so we need to multiply the predicted concentrations by the actual emissions
     hourlist=[]
+    methourlist=[]
     # Split into hourly dataframes for graphing
     # https://stackoverflow.com/questions/54046707/pandas-split-one-dataframe-into-multiple-dataframes
     for h in dfc['Hour'].unique():
         temp = 'dfc_{}'.format(h)
-        print(temp)
-        hourlist.append(temp)  # keep track of data files to process
+        #hourlist.append(temp)  # keep track of data files to process
         vars()[temp] = dfc[dfc['Hour']==h]
-        print(hourlist)
-        print(dfc_1)
+        
     hourlist=[dfc_1, dfc_2, dfc_3, dfc_4]
 
     for h in dfm['Hour'].unique():
-        temp = 'dfm_{}'.format(h)    
+        temp = 'dfm_{}'.format(h)  
         vars()[temp] = dfm[dfm['Hour']==h]
-    
+        
     methourlist=[dfm_1, dfm_2, dfm_3, dfm_4]
     #plm.plm(gs, vars()[temp], sites)
     i=0 
