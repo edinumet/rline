@@ -183,10 +183,10 @@ class reftinterface():
             print("File does not exist: "+str("Met_Example.sfc"))
         # Delete any old data before running the model again
         ## delete only if file exists ##
-        if os.path.exists("RLINEv1_2_gfortran_mac.exe"):
+        if os.path.exists("RLINEv1_2.ifort.x"):
             #ret = subprocess.run(["./RLINEv1_2.ifort.x"],shell=True)
             print("running RLINE ...")
-            ret = subprocess.call(["./RLINEv1_2_gfortran_mac.exe"],shell=True)
+            ret = subprocess.call(["./RLINEv1_2.ifort.x"],shell=True)
         else:
             sys.exit(0)
         if(ret == 0):
