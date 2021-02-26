@@ -1,7 +1,7 @@
 """
 Created: Tuesday 1st December 2020
 @author: John Moncrieff (j.moncrieff@ed.ac.uk)
-Last Modified on 5 Feb 2021 16:30 
+Last Modified on 26 Feb 2021 15:02 
 
 DESCRIPTION
 ===========
@@ -10,6 +10,7 @@ the RLINE/EFT Jupyter notebook
 
 """
 import os
+from sys import platform
 import subprocess
 import ipywidgets as widgets
 from IPython.display import display
@@ -183,13 +184,18 @@ class reftinterface():
             print("File does not exist: "+str("Met_Example.sfc"))
         # Delete any old data before running the model again
         ## delete only if file exists ##
-        if os.path.exists("RLINEv1_2.ifort.x"):
-            #ret = subprocess.run(["./RLINEv1_2.ifort.x"],shell=True)
+        if platform== "darwin":
+            print("running RLINE ...")
+            ret = subprocess.call(["./RLINEv1_2_gfortran_mac.exe"],shell=True)
+            if(ret == 0):
+                print("Run complete - goto next cell")   
+        elif platform == "linux":
             print("running RLINE ...")
             ret = subprocess.call(["./RLINEv1_2.ifort.x"],shell=True)
+            if(ret == 0):
+                print("Run complete - goto next cell")   
         else:
             sys.exit(0)
-        if(ret == 0):
-            print("Run complete - goto next cell")    
+
         
         
