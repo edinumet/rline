@@ -44,7 +44,8 @@ class reftinterface():
                          "artic": 0.4,
                          "biodiesel": 0.1,
                          "buses": 0.7,
-                         "motorcycle": 1.1
+                         "motorcycle": 0.9,
+                         "lpg": 0.2
                         }
         self.sumt=0.0
         for x in self.fleetmix_2020.values():
@@ -54,9 +55,9 @@ class reftinterface():
 
         self.bft_electric = widgets.BoundedFloatText(value = self.fleetmix_2020["electric"], min=0.1,  max=90, step=1, 
                                      description="electric %", width=50)
-        self.bft_petrol_cars = widgets.BoundedFloatText(value = self.fleetmix_2020["petrol"], min=5, max=75, step=0.5, 
+        self.bft_petrol_cars = widgets.BoundedFloatText(value = self.fleetmix_2020["petrol"], min=1, max=99, step=1, 
                                         description="petrol cars %", width=50)
-        self.bft_diesel_cars = widgets.BoundedFloatText(value =self.fleetmix_2020["diesel"],  min=5, max=75, step=0.5, 
+        self.bft_diesel_cars = widgets.BoundedFloatText(value =self.fleetmix_2020["diesel"],  min=1, max=99, step=1, 
                                         description="diesel cars %", width=50)
         self.bft_petrol_lgv = widgets.BoundedFloatText(value =self.fleetmix_2020["petrol_lgv"], min=0.1, max=0.8, step=0.1, 
                                        description="petrol lgv %", width=50)
@@ -72,6 +73,8 @@ class reftinterface():
                                   description="buses %", width=50)
         self.bft_motorcycles = widgets.BoundedFloatText(value=self.fleetmix_2020["motorcycle"], min=0.5, max=1.5, step=0.1, 
                                         description="motorcycles %", width=50)
+        self.bft_lpg = widgets.BoundedFloatText(value=self.fleetmix_2020["lpg"], min=0.1, max=5.5, step=0.1, 
+                                        description="LPG %", width=50)                                
         self.sumtotal = widgets.Text(value=self.sumtt,description="Total should be 100%", width=50, color='red')
         
         self.bft_electric.observe(self.bft_electric_eventhandler, names='value')
@@ -90,7 +93,7 @@ class reftinterface():
         self.bft_biodiesel.observe(self.bft_biodiesel_eventhandler, names='value')
         self.bft_buses.observe(self.bft_buses_eventhandler, names='value')
         self.bft_motorcycles.observe(self.bft_motorcycles_eventhandler, names='value')
-        
+        self.bft_lpg.observe(self.bft_lpg_eventhandler, names='value')
         self.bft_hour.observe(self.bft_hour_eventhandler, names='value')
         self.bft_AADT.observe(self.bft_AADT_eventhandler, names='value')
         self.bft_vs.observe(self.bft_vs_eventhandler, names='value')
@@ -101,7 +104,7 @@ class reftinterface():
         self.h1 = widgets.HBox(children=[self.bft_electric, self.bft_petrol_cars, self.bft_diesel_cars])
         self.h2 = widgets.HBox(children=[self.bft_petrol_lgv, self.bft_diesel_lgv, self.bft_rigid_truck])
         self.h3 = widgets.HBox(children=[self.bft_artic_truck, self.bft_biodiesel, self.bft_buses])
-        self.h4 = widgets.HBox(children=[self.bft_motorcycles,self.sumtotal])
+        self.h4 = widgets.HBox(children=[self.bft_motorcycles,self.bft_lpg, self.sumtotal])
 
     def checksum(self):
         sum=0.0
@@ -161,6 +164,11 @@ class reftinterface():
         self.fleetmix_2020["motorcycle"]=self.bft_motorcycles.value
         self.checksum()
         
+    def bft_lpg_eventhandler(self,change):
+        self.bft_lpg.observe(self.bft_lpg_eventhandler, names='value')
+        self.fleetmix_2020["lpg"]=self.bft_lpg.value
+        self.checksum()
+    
     def bft_hour_eventhandler(self,change):
         self.bft_hour.observe(self.bft_hour_eventhandler, names='value')
         self.trafficstats["hour"]=self.bft_hour.value

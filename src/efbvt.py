@@ -307,6 +307,98 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
                                 weighted_NOx_emission_diesel_buses = weighted_NOx_emission_diesel_buses \
                                  + emis.values * frac_bus[euro_type]
 
+
+# LPG ################################################################
+    # Start by finding the emissions from LPG Passenger cars
+    # Read in the traffic emission factors
+    efis_df = pd.read_excel("LPG Passenger Cars.xlsx")   
+    frac_lpg =  {"Euro 6 d": 0.34,"Euro 6 a/b/c": 0.33, "Euro 6 d-temp": 0.33}
+    # keep a running total
+    weighted_PM_emission_lpg = 0.0
+    weighted_NOx_emission_lpg = 0.0
+    weighted_PM_emission_lpg_petrol = 0.0
+    weighted_NOx_emission_lpg_petrol = 0.0
+
+    segment_list = ["Mini", "Small", "Medium", "Large-SUV-Executive"]
+    euro_list = ["Euro 6 a/b/c", "Euro 6 d-temp","Euro 6 d"]
+    poll_list = ["PM Exhaust", "NOx"]
+    fuel_list = ["LPG Bifuel ~ Petrol", "LPG Bifuel ~ LPG"]
+
+    for vehicle_type in segment_list:
+        for fuel_type in fuel_list:
+            for euro_type in euro_list:
+                for tech_type in tech_list:
+                    for poll_type in poll_list:
+                        dfen = efis_df.loc[efis_df['Fuel'].eq(fuel_type) &
+                            efis_df['Segment'].eq(vehicle_type) &
+                            efis_df['Euro Standard'].eq(euro_type) &
+                            efis_df['Mode'].isnull() &
+                            efis_df['Pollutant'].eq(poll_type)]
+                        if not dfen.empty:
+                        # This will return a dataframe of 1 entry with the speed-related parameters 
+                        # for this class of vehicle
+                        # Now modify it by passing in vehicle speed
+                            emis = sre(vs, dfen['Alpha'],
+                                        dfen['Beta'], dfen['Gamma'], dfen['Delta'],
+                                        dfen['Epsilon'], dfen['Zita'], dfen['Hta'])
+                        # Now weight the emissions by % Euro Standard in the whole fleet
+                        # Will also need to weight by ratio GDI:PFI for petrol vehicles - luckily 50:50 split
+                            if poll_type=="PM Exhaust" and fuel_type=="LPG Bifuel ~ Petrol":
+                                weighted_PM_emission_lpg_petrol = weighted_PM_emission_lpg_petrol \
+                                 + emis.values * frac_lpg[euro_type]
+                            if poll_type=="PM Exhaust" and fuel_type=="LPG Bifuel ~ LPG":
+                                weighted_PM_emission_lpg = weighted_PM_emission_lpg \
+                                 + emis.values * frac_lpg[euro_type]
+                            if poll_type=="NOx" and fuel_type=="LPG Bifuel ~ Petrol":
+                                weighted_NOx_emission_lpg_petrol = weighted_NOx_emission_lpg_petrol \
+                                 + emis.values * frac_lpg[euro_type]
+                            if poll_type=="NOx" and fuel_type=="LPG Bifuel ~ LPG":
+                                weighted_NOx_emission_lpg = weighted_NOx_emission_lpg \
+                                 + emis.values * frac_lpg[euro_type]
+
+# Motorcycles ################################################################
+    # Start by finding the emissions from Motorcycles and Mopeds
+    # Read in the traffic emission factors
+    efis_df = pd.read_excel("Motorcycles.xlsx")   
+    frac_mcls =  {"Conventional": 0.06, "Euro 1": 0.06,"Euro 2": 0.13, "Euro 3": 0.25, "Euro 4": 0.25, "Euro 5": 0.25}
+    # keep a running total
+    weighted_PM_emission_mcls = 0.0
+    weighted_NOx_emission_mcls = 0.0
+
+    segment_list = ["Mopeds 2-stroke <50 cm³", "Motorcycles 2-stroke >50 cm³", 
+           "Motorcycles 4-stroke <250 cm³", "Motorcycles 4-stroke 250 - 750 cm³",
+           "Motorcycles 4-stroke >750 cm³"]
+    euro_list = ["Conventional","Euro 1","Euro 2","Euro 3","Euro 4","Euro 5"]
+    poll_list = ["PM Exhaust", "NOx"]
+    fuel_list = ["Petrol"]
+
+    for vehicle_type in segment_list:
+        for fuel_type in fuel_list:
+            for euro_type in euro_list:
+                for tech_type in tech_list:
+                    for poll_type in poll_list:
+                        dfen = efis_df.loc[efis_df['Fuel'].eq(fuel_type) &
+                            efis_df['Segment'].eq(vehicle_type) &
+                            efis_df['Euro Standard'].eq(euro_type) &
+                            efis_df['Mode'].isnull() &
+                            efis_df['Pollutant'].eq(poll_type)]
+                        if not dfen.empty:
+                        # This will return a dataframe of 1 entry with the speed-related parameters 
+                        # for this class of vehicle
+                        # Now modify it by passing in vehicle speed
+                            emis = sre(vs, dfen['Alpha'],
+                                        dfen['Beta'], dfen['Gamma'], dfen['Delta'],
+                                        dfen['Epsilon'], dfen['Zita'], dfen['Hta'])
+                        # Now weight the emissions by % Euro Standard in the whole fleet
+                        # Will also need to weight by ratio GDI:PFI for petrol vehicles - luckily 50:50 split
+                            if poll_type=="PM Exhaust" and fuel_type=="Petrol":
+                                weighted_PM_emission_mcls = weighted_PM_emission_mcls \
+                                 + emis.values * frac_mcls[euro_type]
+                            if poll_type=="NOx" and fuel_type=="Petrol":
+                                weighted_NOx_emission_mcls = weighted_NOx_emission_mcls \
+                                 + emis.values * frac_mcls[euro_type]
+
+
     # Need to scale by Annual Average Daily Traffic (AADT)
     # and scale for hour of day
     
@@ -344,7 +436,9 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
                                weighted_PM_emission_rigid_diesel_trucks * traffic_count * fleetmix_2020["rigid"]/100 + \
                                weighted_PM_emission_artic_diesel_trucks * traffic_count * fleetmix_2020["artic"]/100 + \
                                weighted_PM_emission_biodiesel_buses * traffic_count * fleetmix_2020["biodiesel"]/100 + \
-                               weighted_PM_emission_diesel_buses * traffic_count * fleetmix_2020["buses"]
+                               weighted_PM_emission_diesel_buses * traffic_count * fleetmix_2020["buses"]/100 + \
+                               weighted_PM_emission_lpg * traffic_count * fleetmix_2020["lpg"]/100 + \
+                               weighted_PM_emission_mcls * traffic_count * fleetmix_2020["motorcycle"]/100
     
     hourly_weighted_NOx_emission = weighted_NOx_emission_petrol_cars * traffic_count * fleetmix_2020["petrol"]/100 + \
                                weighted_NOx_emission_diesel_cars * traffic_count * fleetmix_2020["diesel"]/100 + \
@@ -353,7 +447,9 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
                                weighted_NOx_emission_rigid_diesel_trucks * traffic_count * fleetmix_2020["rigid"]/100 + \
                                weighted_NOx_emission_artic_diesel_trucks * traffic_count * fleetmix_2020["artic"]/100 + \
                                weighted_NOx_emission_biodiesel_buses * traffic_count * fleetmix_2020["biodiesel"]/100 + \
-                               weighted_NOx_emission_diesel_buses * traffic_count * fleetmix_2020["buses"]/100                           
+                               weighted_NOx_emission_diesel_buses * traffic_count * fleetmix_2020["buses"]/100 + \
+                               weighted_NOx_emission_lpg * traffic_count * fleetmix_2020["lpg"]/100    + \
+                               weighted_NOx_emission_mcls * traffic_count * fleetmix_2020["motorcycle"]/100                        
     
     print("PM Emission (g/m/s) = ", hourly_weighted_PM_emission/3600000)
     print("NOx Emission (g/m/s) = ", hourly_weighted_NOx_emission/3600000)
