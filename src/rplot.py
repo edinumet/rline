@@ -33,12 +33,21 @@ def plotrw():
     # so we need to multiply the predicted concentrations by the actual emissions
     hourlist=[]
     methourlist=[]
+    dfc_1=pd.DataFrame()
+    dfc_2=pd.DataFrame()
+    dfc_3=pd.DataFrame()
+    dfc_4=pd.DataFrame()
+    dfm_1=pd.DataFrame()
+    dfm_2=pd.DataFrame()
+    dfm_3=pd.DataFrame()
+    dfm_4=pd.DataFrame()
     # Split into hourly dataframes for graphing
     # https://stackoverflow.com/questions/54046707/pandas-split-one-dataframe-into-multiple-dataframes
     for h in dfc['Hour'].unique():
         temp = 'dfc_{}'.format(h)
         #hourlist.append(temp)  # keep track of data files to process
         vars()[temp] = dfc[dfc['Hour']==h]
+        print(h)
         
     hourlist=[dfc_1, dfc_2, dfc_3, dfc_4]
 

@@ -59,21 +59,21 @@ class reftinterface():
                                         description="petrol cars %", width=50)
         self.bft_diesel_cars = widgets.BoundedFloatText(value =self.fleetmix_2020["diesel"],  min=1, max=99, step=1, 
                                         description="diesel cars %", width=50)
-        self.bft_petrol_lgv = widgets.BoundedFloatText(value =self.fleetmix_2020["petrol_lgv"], min=0.1, max=0.8, step=0.1, 
+        self.bft_petrol_lgv = widgets.BoundedFloatText(value =self.fleetmix_2020["petrol_lgv"], min=0.1, max=25.0, step=0.1, 
                                        description="petrol lgv %", width=50)
-        self.bft_diesel_lgv = widgets.BoundedFloatText(value=self.fleetmix_2020["diesel_lgv"], min=3, max=18, step=1, 
+        self.bft_diesel_lgv = widgets.BoundedFloatText(value=self.fleetmix_2020["diesel_lgv"], min=0.1, max=25.0, step=1, 
                                        description="diesel lgv %", width=50)
-        self.bft_rigid_truck = widgets.BoundedFloatText(value=self.fleetmix_2020["rigid"],min=0.1, max=1.0, step=0.1, 
+        self.bft_rigid_truck = widgets.BoundedFloatText(value=self.fleetmix_2020["rigid"],min=0.1, max=10.0, step=0.1, 
                                         description="rigid truck %", width=50)
-        self.bft_artic_truck = widgets.BoundedFloatText(value=self.fleetmix_2020["artic"], min=0.1, max=0.6, step=0.1, 
+        self.bft_artic_truck = widgets.BoundedFloatText(value=self.fleetmix_2020["artic"], min=0.1, max=10.0, step=0.1, 
                                         description="artic truck %", width=50)  
-        self.bft_biodiesel = widgets.BoundedFloatText(value=self.fleetmix_2020["biodiesel"], min=0.1, max=1.0,step=0.1, 
+        self.bft_biodiesel = widgets.BoundedFloatText(value=self.fleetmix_2020["biodiesel"], min=0.1, max=10.0,step=0.1, 
                                       description="biodiesel %", width=50)
-        self.bft_buses = widgets.BoundedFloatText(value=self.fleetmix_2020["buses"], min=0.1, max=1.5, step=0.1, 
+        self.bft_buses = widgets.BoundedFloatText(value=self.fleetmix_2020["buses"], min=0.1, max=50.0, step=0.1, 
                                   description="buses %", width=50)
-        self.bft_motorcycles = widgets.BoundedFloatText(value=self.fleetmix_2020["motorcycle"], min=0.5, max=1.5, step=0.1, 
+        self.bft_motorcycles = widgets.BoundedFloatText(value=self.fleetmix_2020["motorcycle"], min=0.1, max=35.0, step=0.1, 
                                         description="motorcycles %", width=50)
-        self.bft_lpg = widgets.BoundedFloatText(value=self.fleetmix_2020["lpg"], min=0.1, max=5.5, step=0.1, 
+        self.bft_lpg = widgets.BoundedFloatText(value=self.fleetmix_2020["lpg"], min=0.1, max=35.0, step=0.1, 
                                         description="LPG %", width=50)                                
         self.sumtotal = widgets.Text(value=self.sumtt,description="Total should be 100%", width=50, color='red')
         
