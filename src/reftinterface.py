@@ -80,10 +80,11 @@ class reftinterface():
         self.bft_electric.observe(self.bft_electric_eventhandler, names='value')
         self.bft_hour = widgets.BoundedIntText(value=self.trafficstats["hour"],min=1, max=24, step=1,
                                     description="Hour of Day")
-        self.bft_AADT = widgets.BoundedIntText(value=self.trafficstats["AADT"], min=1000, max=55000,step=1000,
+        self.bft_AADT = widgets.BoundedIntText(value=self.trafficstats["AADT"], min=1000, max=755000,step=2500,
                                     description="AADT")
-        self.bft_vs = widgets.BoundedIntText(value=self.trafficstats["vs"], min=5, max=85, step=5,
-                                  description="Speed")
+        self.bft_vs = widgets.BoundedIntText(value=self.trafficstats["vs"], min=10, max=130, step=5,
+                                  description="Speed (km/h)")
+        
         self.bft_petrol_cars.observe(self.bft_petrol_cars_eventhandler, names='value')
         self.bft_diesel_cars.observe(self.bft_diesel_cars_eventhandler, names='value')
         self.bft_petrol_lgv.observe(self.bft_petrol_lgv_eventhandler, names='value')
@@ -205,5 +206,4 @@ class reftinterface():
         else:
             sys.exit(0)
 
-        
         

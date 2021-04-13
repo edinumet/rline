@@ -31,7 +31,7 @@ def efbvt(fleetmix_2020, trafficstats, TomTom_congestion):
     vs = trafficstats["vs"]
     hour = trafficstats["hour"]
     AADT = trafficstats["AADT"]
-    print("Traffic count = {}  per day, Vehicle speed = {}, Time of day = {}".format(AADT,vs,hour))
+    print("Traffic count = {}  per day, Vehicle speed = {} km/h, Time of day = {}".format(AADT,vs,hour))
     # Passenger Cars #################################################
     # Within that overall breakdown, we need to know what % of each category 
     # uses diesel and in what Euro category they are
