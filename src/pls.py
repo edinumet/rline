@@ -96,7 +96,7 @@ def pls(gs, xx, yy, zz, hour, min, max, datam, sitesp, sitesn, hourly_stab):
     path = './results'
     plt.savefig(os.path.join(path,outfile))
     plt.show()
-    
+
     
     # To be completed
     # """Plot meteorological data"""
